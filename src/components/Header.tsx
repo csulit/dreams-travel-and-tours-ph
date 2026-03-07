@@ -8,7 +8,7 @@ import { Button } from './ui/button'
 
 const navLinks = [
   { label: 'Home', to: '/' },
-  { label: 'About Us', to: '#' },
+  { label: 'About Us', to: '/about' },
   { label: 'Tours', to: '#' },
   { label: 'Services', to: '#' },
   { label: 'Contact', to: '#' },
@@ -29,9 +29,9 @@ export default function Header() {
             <Link
               key={link.label}
               to={link.to}
-              className={`text-sm font-medium no-underline transition-colors hover:text-dt-primary-dark ${
-                link.label === 'Home' ? 'text-dt-primary-dark' : 'text-dt-body'
-              }`}
+              activeOptions={{ exact: link.to === '/' }}
+              className="text-sm font-medium text-dt-body no-underline transition-colors hover:text-dt-primary-dark"
+              activeProps={{ className: 'text-sm font-bold text-dt-primary-dark no-underline transition-colors hover:text-dt-primary-dark' }}
             >
               {link.label}
             </Link>
@@ -92,10 +92,10 @@ export default function Header() {
                   <Link
                     key={link.label}
                     to={link.to}
+                    activeOptions={{ exact: link.to === '/' }}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`rounded-lg px-4 py-3 text-[15px] font-medium no-underline transition-colors hover:bg-dt-surface-badge ${
-                      link.label === 'Home' ? 'text-dt-primary-dark' : 'text-dt-body'
-                    }`}
+                    className="rounded-lg px-4 py-3 text-[15px] font-medium text-dt-body no-underline transition-colors hover:bg-dt-surface-badge"
+                    activeProps={{ className: 'rounded-lg px-4 py-3 text-[15px] font-bold text-dt-primary-dark no-underline transition-colors hover:bg-dt-surface-badge' }}
                   >
                     {link.label}
                   </Link>

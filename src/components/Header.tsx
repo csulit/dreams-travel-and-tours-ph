@@ -9,6 +9,7 @@ import { Button } from './ui/button'
 const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },
+  { label: 'Advocacy', to: '/advocacy' },
   { label: 'Tours', to: '#' },
   { label: 'Services', to: '#' },
   { label: 'Contact', to: '#' },

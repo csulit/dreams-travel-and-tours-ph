@@ -8,6 +8,6 @@ export {
   reducedMotionFade,
 } from './variants'
 
-export { useMotionHover } from './hooks'
+export { useFirstVisit, useMotionHover } from './hooks'
 
 export { ScrollReveal, StaggerGrid, StaggerItem } from './components'

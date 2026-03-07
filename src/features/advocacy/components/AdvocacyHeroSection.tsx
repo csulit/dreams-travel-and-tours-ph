@@ -11,12 +11,10 @@ import {
   staggerItem,
   useFirstVisit,
 } from '@/lib/motion'
-import StatCard from './components/StatCard'
+import StatCard from '@/features/landing/components/StatCard'
+import { heroImage, heroStats } from '../data/advocacy'
 
-const heroImage =
-  'https://images.unsplash.com/photo-1760548759043-44de2ad650c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzE5MDYyMzV8&ixlib=rb-4.1.0&q=80&w=1080'
-
-export default function HeroSection() {
+export default function AdvocacyHeroSection() {
   const shouldReduceMotion = useReducedMotion()
   const isFirstVisit = useFirstVisit()
 
@@ -45,19 +43,19 @@ export default function HeroSection() {
             className="w-fit gap-2 rounded-full bg-dt-surface-badge px-4 py-2.5 text-xs font-semibold text-dt-primary sm:gap-2.5 sm:px-5 sm:py-5 sm:text-sm"
           >
             <span className="inline-block size-2 rounded-full bg-dt-primary sm:size-2.5" />
-            Discover the Philippines
+            Community Advocacy
           </Badge>
         </m.div>
 
         <m.div variants={fade} className="flex flex-col">
           <h1 className="text-[clamp(2rem,8vw,72px)] font-extrabold leading-tight text-dt-heading">
-            Your Dream
+            Helping
           </h1>
           <h1 className="gradient-text text-[clamp(2rem,8vw,72px)] font-extrabold leading-tight">
-            Adventure
+            Hands
           </h1>
           <h1 className="text-[clamp(2rem,8vw,72px)] font-extrabold leading-tight text-dt-heading">
-            Starts Here
+            Together
           </h1>
         </m.div>
 
@@ -65,8 +63,8 @@ export default function HeroSection() {
           variants={fade}
           className="max-w-140 text-[15px] leading-relaxed text-dt-body sm:text-[17px]"
         >
-          Experience the beauty of the Philippines with expertly crafted travel
-          packages. From pristine beaches to vibrant cities — we take you there.
+          We partner with local homes and shelters across the Philippines to
+          provide food, supplies, and opportunities all year round.
         </m.p>
 
         <m.div
@@ -74,10 +72,10 @@ export default function HeroSection() {
           className="flex w-full flex-wrap gap-3 sm:gap-4"
         >
           <Button variant="gradient" size="xl" className="flex-1 sm:flex-none">
-            Explore Tours
+            Donate Now
           </Button>
           <Button variant="soft" size="xl" className="flex-1 sm:flex-none">
-            View Packages
+            Volunteer With Us
           </Button>
         </m.div>
 
@@ -85,8 +83,7 @@ export default function HeroSection() {
           variants={fadeSimple}
           className="text-[13px] text-dt-muted"
         >
-          &#9733;&#9733;&#9733;&#9733;&#9733;&nbsp;&nbsp;Trusted by 10,000+
-          travelers across the Philippines
+          Supported by local partners and volunteers nationwide
         </m.p>
       </m.div>
 
@@ -100,22 +97,18 @@ export default function HeroSection() {
         <m.img
           variants={scale}
           src={heroImage}
-          alt="Beautiful Philippine beach destination"
+          alt="Community outreach volunteers helping local families"
           className="h-48 w-full rounded-2xl object-cover sm:h-80 lg:h-120 lg:rounded-3xl"
         />
         <m.div
           variants={stagger}
           className="grid w-full grid-cols-3 gap-2 sm:gap-4"
         >
-          <m.div variants={item}>
-            <StatCard value="10K+" label="Happy Travelers" />
-          </m.div>
-          <m.div variants={item}>
-            <StatCard value="50+" label="Destinations" />
-          </m.div>
-          <m.div variants={item}>
-            <StatCard value="15+" label="Years Experience" />
-          </m.div>
+          {heroStats.map((stat) => (
+            <m.div key={stat.label} variants={item}>
+              <StatCard value={stat.value} label={stat.label} />
+            </m.div>
+          ))}
         </m.div>
       </m.div>
     </section>

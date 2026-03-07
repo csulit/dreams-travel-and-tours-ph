@@ -5,6 +5,7 @@ import {
   type Variants,
 } from 'motion/react'
 import { useRef, type ComponentProps, type ElementType, type ReactNode } from 'react'
+import { useFirstVisit } from './hooks'
 import {
   fadeUp,
   reducedMotionFade,
@@ -27,6 +28,7 @@ export function ScrollReveal({
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const shouldReduceMotion = useReducedMotion()
+  const isFirstVisit = useFirstVisit()
 
   const MotionTag = m.create(Tag as 'div')
   const activeVariants = shouldReduceMotion ? reducedMotionFade : variants
@@ -35,8 +37,8 @@ export function ScrollReveal({
     <MotionTag
       ref={ref}
       variants={activeVariants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={isFirstVisit ? 'hidden' : false}
+      animate={isFirstVisit ? (isInView ? 'visible' : 'hidden') : 'visible'}
       {...props}
     >
       {children}
@@ -53,13 +55,14 @@ export function StaggerGrid({ children, className }: StaggerGridProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const shouldReduceMotion = useReducedMotion()
+  const isFirstVisit = useFirstVisit()
 
   return (
     <m.div
       ref={ref}
       variants={shouldReduceMotion ? reducedMotionFade : staggerContainer}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={isFirstVisit ? 'hidden' : false}
+      animate={isFirstVisit ? (isInView ? 'visible' : 'hidden') : 'visible'}
       className={className}
     >
       {children}

@@ -24,7 +24,7 @@ export default function ServiceCard({
   return (
     <m.div
       {...hoverProps}
-      className="flex flex-col gap-4 rounded-2xl border border-dt-border bg-dt-surface-light p-6 sm:p-8"
+      className="flex h-full flex-col gap-4 rounded-2xl border border-dt-border bg-dt-surface-light p-6 sm:p-8"
     >
       <div className="flex size-13 items-center justify-center rounded-xl bg-dt-primary/20">
         {Icon && <Icon className="size-6 text-dt-primary" />}

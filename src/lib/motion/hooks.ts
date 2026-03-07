@@ -1,18 +1,21 @@
 import { useLocation } from '@tanstack/react-router'
 import { useReducedMotion } from 'motion/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 const visitedRoutes = new Set<string>()
 
 export function useFirstVisit(): boolean {
   const pathname = useLocation({ select: (loc) => loc.pathname })
-  const isFirst = useRef(!visitedRoutes.has(pathname))
+  const [isFirst] = useState(() => !visitedRoutes.has(pathname))
 
   useEffect(() => {
-    visitedRoutes.add(pathname)
+    const id = requestAnimationFrame(() => {
+      visitedRoutes.add(pathname)
+    })
+    return () => cancelAnimationFrame(id)
   }, [pathname])
 
-  return isFirst.current
+  return isFirst
 }
 
 type HoverConfig = {

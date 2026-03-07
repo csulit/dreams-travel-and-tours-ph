@@ -11,8 +11,8 @@ const navLinks = [
   { label: 'About Us', to: '/about' },
   { label: 'Advocacy', to: '/advocacy' },
   { label: 'Tours', to: '/tours' },
-  { label: 'Services', to: '#' },
-  { label: 'Contact', to: '#' },
+  { label: 'Services', to: '/services' },
+  { label: 'Contact', to: '/contact' },
 ]
 
 export default function Header() {

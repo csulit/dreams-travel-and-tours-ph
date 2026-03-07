@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ToursRouteImport } from './routes/tours'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdvocacyRouteImport } from './routes/advocacy'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +19,16 @@ import { Route as IndexRouteImport } from './routes/index'
 const ToursRoute = ToursRouteImport.update({
   id: '/tours',
   path: '/tours',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdvocacyRoute = AdvocacyRouteImport.update({
@@ -39,12 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/advocacy': typeof AdvocacyRoute
+  '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/advocacy': typeof AdvocacyRoute
+  '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
 }
 export interface FileRoutesById {
@@ -52,20 +68,31 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/advocacy': typeof AdvocacyRoute
+  '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/advocacy' | '/tours'
+  fullPaths: '/' | '/about' | '/advocacy' | '/contact' | '/services' | '/tours'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/advocacy' | '/tours'
-  id: '__root__' | '/' | '/about' | '/advocacy' | '/tours'
+  to: '/' | '/about' | '/advocacy' | '/contact' | '/services' | '/tours'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/advocacy'
+    | '/contact'
+    | '/services'
+    | '/tours'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdvocacyRoute: typeof AdvocacyRoute
+  ContactRoute: typeof ContactRoute
+  ServicesRoute: typeof ServicesRoute
   ToursRoute: typeof ToursRoute
 }
 
@@ -76,6 +103,20 @@ declare module '@tanstack/react-router' {
       path: '/tours'
       fullPath: '/tours'
       preLoaderRoute: typeof ToursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/advocacy': {
@@ -106,6 +147,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdvocacyRoute: AdvocacyRoute,
+  ContactRoute: ContactRoute,
+  ServicesRoute: ServicesRoute,
   ToursRoute: ToursRoute,
 }
 export const routeTree = rootRouteImport

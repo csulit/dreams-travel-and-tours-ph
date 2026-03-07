@@ -1,6 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query'
 import {
   HeadContent,
+  ScriptOnce,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
@@ -27,6 +28,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         title: 'Dreams Travel & Tours',
       },
+      {
+        name: 'description',
+        content:
+          'Experience the beauty of the Philippines with expertly crafted travel packages. From pristine beaches to vibrant cities — we take you there.',
+      },
+      { property: 'og:type', content: 'website' },
+      {
+        property: 'og:title',
+        content: 'Dreams Travel & Tours | Your Dream Adventure Starts Here',
+      },
+      {
+        property: 'og:description',
+        content:
+          'Experience the beauty of the Philippines with expertly crafted travel packages. From pristine beaches to vibrant cities — we take you there.',
+      },
+      { property: 'og:image', content: '/og.png' },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { property: 'og:image:type', content: 'image/png' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      {
+        name: 'twitter:title',
+        content: 'Dreams Travel & Tours | Your Dream Adventure Starts Here',
+      },
+      {
+        name: 'twitter:description',
+        content:
+          'Experience the beauty of the Philippines with expertly crafted travel packages. From pristine beaches to vibrant cities — we take you there.',
+      },
+      { name: 'twitter:image', content: '/og.png' },
     ],
     links: [
       {
@@ -42,10 +73,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <ScriptOnce>{THEME_INIT_SCRIPT}</ScriptOnce>
         <HeadContent />
       </head>
-      <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[var(--dt-selection)]">
+      <body className="font-sans antialiased wrap-anywhere selection:bg-(--dt-selection)">
         <Header />
         {children}
         <Footer />

@@ -325,3 +325,9 @@ a {
   background-clip: text;
   color: transparent;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  button, a {
+    transition: none;
+  }
+}

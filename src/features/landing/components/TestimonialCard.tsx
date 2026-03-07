@@ -1,4 +1,6 @@
+import { m } from 'motion/react'
 import { Separator } from '@/components/ui/separator'
+import { useMotionHover } from '@/lib/motion'
 
 export default function TestimonialCard({
   quote,
@@ -9,8 +11,13 @@ export default function TestimonialCard({
   name: string
   title: string
 }) {
+  const hoverProps = useMotionHover({ y: -2 })
+
   return (
-    <div className="flex flex-col gap-5 rounded-2xl border border-dt-border bg-background p-8">
+    <m.div
+      {...hoverProps}
+      className="flex flex-col gap-5 rounded-2xl border border-dt-border bg-background p-6 sm:p-8"
+    >
       <span className="text-lg text-dt-gold">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
       <p className="text-[15px] leading-[1.7] text-dt-quote">{quote}</p>
       <Separator className="bg-dt-divider" />
@@ -21,6 +28,6 @@ export default function TestimonialCard({
           <span className="text-xs text-dt-muted">{title}</span>
         </div>
       </div>
-    </div>
+    </m.div>
   )
 }

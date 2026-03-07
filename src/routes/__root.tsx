@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { LazyMotion, domAnimation } from 'motion/react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 
@@ -77,9 +78,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased wrap-anywhere selection:bg-(--dt-selection)">
-        <Header />
-        {children}
-        <Footer />
+        <LazyMotion features={domAnimation} strict>
+          <Header />
+          {children}
+          <Footer />
+        </LazyMotion>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

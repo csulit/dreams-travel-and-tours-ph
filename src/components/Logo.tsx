@@ -6,12 +6,12 @@ export default function Logo({
   variant?: 'light' | 'dark'
 }) {
   return (
-    <div className="flex items-center gap-2.5">
-      <div className="gradient-primary size-9 rounded-full" />
+    <div className="flex items-center gap-2">
+      <div className="gradient-primary size-8 rounded-full sm:size-9" />
       <div className="flex flex-col">
         <span
           className={cn(
-            'text-[22px] font-extrabold tracking-[4px]',
+            'text-lg font-extrabold tracking-[3px] sm:text-[22px] sm:tracking-[4px]',
             variant === 'dark' ? 'text-dt-primary-dark' : 'text-white',
           )}
         >
@@ -19,7 +19,7 @@ export default function Logo({
         </span>
         <span
           className={cn(
-            'text-[11px] tracking-[2px]',
+            'text-[10px] tracking-[1.5px] sm:text-[11px] sm:tracking-[2px]',
             variant === 'dark' ? 'text-dt-primary' : 'text-dt-footer-text',
           )}
         >

@@ -39,7 +39,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button variant="gradient" className="hidden rounded-md px-7 py-3 text-sm font-bold lg:inline-flex">
+          <Button variant="gradient" className="hidden rounded-md px-7 py-5 text-sm font-bold lg:inline-flex">
             Book Now
           </Button>
           <ThemeToggle />

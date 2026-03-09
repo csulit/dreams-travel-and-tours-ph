@@ -6,6 +6,7 @@ import {
   Scripts,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
@@ -122,6 +123,10 @@ function RootNotFoundComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const isAdmin = useRouterState({
+    select: (s) => s.location.pathname.startsWith('/admin'),
+  })
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -130,9 +135,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="font-sans antialiased wrap-anywhere selection:bg-(--dt-selection)">
         <LazyMotion features={domAnimation} strict>
-          <Header />
+          {!isAdmin && <Header />}
           {children}
-          <Footer />
+          {!isAdmin && <Footer />}
         </LazyMotion>
         <TanStackDevtools
           config={{

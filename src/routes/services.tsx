@@ -1,8 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { visaFeesQueryOptions } from '@/features/services/hooks/use-visa-fees'
 import ServicesHeroBanner from '@/features/services/components/ServicesHeroBanner'
 import OurServicesSection from '@/features/services/components/OurServicesSection'
 
 export const Route = createFileRoute('/services')({
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(visaFeesQueryOptions()),
   head: () => ({
     meta: [
       {

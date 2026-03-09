@@ -1,15 +1,36 @@
+import { useMemo } from 'react'
 import { ScrollReveal } from '@/lib/motion'
 import { Separator } from '@/components/ui/separator'
+import { useVisaFees } from '@/features/services/hooks/use-visa-fees'
+import { centavosToPHP } from '@/lib/format-currency'
 import VisaFeeRow from './VisaFeeRow'
-import {
-  servicesBullets,
-  accomplishments,
-  visaFeesLeft,
-  visaFeesRight,
-  additionalVisaFees,
-} from '../data/services'
+import { servicesBullets, accomplishments } from '../data/services'
+import type { VisaFee } from '@/db/schema'
 
 export default function OurServicesSection() {
+  const { data: visaFeeRows } = useVisaFees()
+
+  const { standardLeft, standardRight, additionalEntries } = useMemo(() => {
+    const left: { country: string; fee: string }[] = []
+    const right: { country: string; fee: string }[] = []
+    const additional: VisaFee[] = []
+
+    for (const row of visaFeeRows) {
+      if (row.category === 'standard') {
+        const entry = {
+          country: row.label,
+          fee: row.feeCentavos != null ? centavosToPHP(row.feeCentavos) : '',
+        }
+        if (row.gridColumn === 'left') left.push(entry)
+        else right.push(entry)
+      } else {
+        additional.push(row)
+      }
+    }
+
+    return { standardLeft: left, standardRight: right, additionalEntries: additional }
+  }, [visaFeeRows])
+
   return (
     <section className="bg-background px-5 py-10 sm:px-6 sm:py-16 lg:px-20 lg:py-20">
       <div className="mx-auto flex max-w-360 flex-col gap-8">
@@ -69,7 +90,7 @@ export default function OurServicesSection() {
             </h3>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                {visaFeesLeft.map((entry, i) => (
+                {standardLeft.map((entry, i) => (
                   <VisaFeeRow
                     key={entry.country}
                     country={entry.country}
@@ -79,7 +100,7 @@ export default function OurServicesSection() {
                 ))}
               </div>
               <div>
-                {visaFeesRight.map((entry, i) => (
+                {standardRight.map((entry, i) => (
                   <VisaFeeRow
                     key={entry.country}
                     country={entry.country}
@@ -95,11 +116,11 @@ export default function OurServicesSection() {
         {/* Additional Visa Fees */}
         <ScrollReveal>
           <div className="overflow-hidden rounded border border-dt-border">
-            {additionalVisaFees.map((entry, i) => {
+            {additionalEntries.map((entry, i) => {
               if (entry.type === 'info') {
                 return (
                   <div
-                    key={entry.label}
+                    key={entry.id}
                     className={`px-10 py-2 ${i % 2 === 0 ? 'bg-dt-surface-light' : 'bg-background'} border-b border-dt-border`}
                   >
                     <p className="text-[11px] leading-[1.6] text-dt-muted">
@@ -111,7 +132,7 @@ export default function OurServicesSection() {
 
               return (
                 <div
-                  key={entry.label}
+                  key={entry.id}
                   className={`flex items-center justify-between border-b border-dt-border px-4 py-3 last:border-b-0 ${i % 2 === 0 ? 'bg-dt-surface-light' : 'bg-background'} ${entry.type === 'sub' ? 'pl-10' : ''}`}
                 >
                   <span
@@ -119,9 +140,9 @@ export default function OurServicesSection() {
                   >
                     {entry.label}
                   </span>
-                  {entry.fee && (
+                  {entry.feeCentavos != null && (
                     <span className="text-[13px] text-dt-body">
-                      {entry.fee}
+                      {centavosToPHP(entry.feeCentavos)}
                     </span>
                   )}
                 </div>

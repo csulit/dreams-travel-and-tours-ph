@@ -13,8 +13,11 @@ import { Route as ToursRouteImport } from './routes/tours'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdvocacyRouteImport } from './routes/advocacy'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminVisaFeesRouteImport } from './routes/admin/visa-fees'
 
 const ToursRoute = ToursRouteImport.update({
   id: '/tours',
@@ -36,6 +39,11 @@ const AdvocacyRoute = AdvocacyRouteImport.update({
   path: '/advocacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -46,14 +54,27 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVisaFeesRoute = AdminVisaFeesRouteImport.update({
+  id: '/visa-fees',
+  path: '/visa-fees',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/advocacy': typeof AdvocacyRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
+  '/admin/visa-fees': typeof AdminVisaFeesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,34 +83,60 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
+  '/admin/visa-fees': typeof AdminVisaFeesRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/advocacy': typeof AdvocacyRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
+  '/admin/visa-fees': typeof AdminVisaFeesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/advocacy' | '/contact' | '/services' | '/tours'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/advocacy'
+    | '/contact'
+    | '/services'
+    | '/tours'
+    | '/admin/visa-fees'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/advocacy' | '/contact' | '/services' | '/tours'
-  id:
-    | '__root__'
+  to:
     | '/'
     | '/about'
     | '/advocacy'
     | '/contact'
     | '/services'
     | '/tours'
+    | '/admin/visa-fees'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/advocacy'
+    | '/contact'
+    | '/services'
+    | '/tours'
+    | '/admin/visa-fees'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AdvocacyRoute: typeof AdvocacyRoute
   ContactRoute: typeof ContactRoute
   ServicesRoute: typeof ServicesRoute
@@ -126,6 +173,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdvocacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -140,12 +194,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/visa-fees': {
+      id: '/admin/visa-fees'
+      path: '/visa-fees'
+      fullPath: '/admin/visa-fees'
+      preLoaderRoute: typeof AdminVisaFeesRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminVisaFeesRoute: typeof AdminVisaFeesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminVisaFeesRoute: AdminVisaFeesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   AdvocacyRoute: AdvocacyRoute,
   ContactRoute: ContactRoute,
   ServicesRoute: ServicesRoute,

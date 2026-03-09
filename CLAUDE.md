@@ -2,6 +2,7 @@ Things you need to remember.
 1. This project uses bun
 2. Do not run bun run dev, and build w/o my approval
 3. Tailwind v4 patterns must be enforced
+4. Re-useable components use it to avoid code duplication
 
 Tanstack doc
 

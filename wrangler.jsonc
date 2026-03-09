@@ -3,5 +3,13 @@
   "name": "dreams-travel-and-tours-ph",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
+  "main": "@tanstack/react-start/server-entry",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dreams-travel-db",
+      "database_id": "9946c3a0-73c4-4536-9361-ea5352c5f878",
+      "migrations_dir": "src/db/migrations"
+    }
+  ]
 }

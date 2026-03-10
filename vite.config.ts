@@ -18,7 +18,7 @@ const config = defineConfig({
     viteReact(),
   ],
   ssr: {
-    noExternal: ['motion'],
+    noExternal: ['motion', 'better-auth'],
   },
 })
 

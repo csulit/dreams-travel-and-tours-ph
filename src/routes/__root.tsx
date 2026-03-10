@@ -123,8 +123,10 @@ function RootNotFoundComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const isAdmin = useRouterState({
-    select: (s) => s.location.pathname.startsWith('/admin'),
+  const hideChrome = useRouterState({
+    select: (s) =>
+      s.location.pathname.startsWith('/admin') ||
+      s.location.pathname === '/login',
   })
 
   return (
@@ -135,9 +137,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="font-sans antialiased wrap-anywhere selection:bg-(--dt-selection)">
         <LazyMotion features={domAnimation} strict>
-          {!isAdmin && <Header />}
+          {!hideChrome && <Header />}
           {children}
-          {!isAdmin && <Footer />}
+          {!hideChrome && <Footer />}
         </LazyMotion>
         <TanStackDevtools
           config={{

@@ -3,6 +3,7 @@ import { env } from 'cloudflare:workers'
 import { eq } from 'drizzle-orm'
 import { getDb } from '#/db/index.ts'
 import { visaFees } from '#/db/schema.ts'
+import { ensureSession } from '#/lib/auth.server.ts'
 import {
   createVisaFeeSchema,
   deleteVisaFeeSchema,
@@ -24,6 +25,7 @@ export const getVisaFees = createServerFn().handler(async () => {
 export const createVisaFee = createServerFn({ method: 'POST' })
   .inputValidator(createVisaFeeSchema)
   .handler(async ({ data }) => {
+    await ensureSession()
     const [row] = await db()
       .insert(visaFees)
       .values({
@@ -42,6 +44,7 @@ export const createVisaFee = createServerFn({ method: 'POST' })
 export const updateVisaFee = createServerFn({ method: 'POST' })
   .inputValidator(updateVisaFeeSchema)
   .handler(async ({ data }) => {
+    await ensureSession()
     const { id, ...updates } = data
     const [row] = await db()
       .update(visaFees)
@@ -54,6 +57,7 @@ export const updateVisaFee = createServerFn({ method: 'POST' })
 export const deleteVisaFee = createServerFn({ method: 'POST' })
   .inputValidator(deleteVisaFeeSchema)
   .handler(async ({ data }) => {
+    await ensureSession()
     await db().delete(visaFees).where(eq(visaFees.id, data.id))
     return { success: true }
   })
@@ -61,6 +65,7 @@ export const deleteVisaFee = createServerFn({ method: 'POST' })
 export const reorderVisaFees = createServerFn({ method: 'POST' })
   .inputValidator(reorderVisaFeesSchema)
   .handler(async ({ data }) => {
+    await ensureSession()
     const database = db()
     const stmts = data.items.map((item) =>
       database

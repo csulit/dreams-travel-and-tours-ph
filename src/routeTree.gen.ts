@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ToursRouteImport } from './routes/tours'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdvocacyRouteImport } from './routes/advocacy'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -18,6 +19,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminVisaFeesRouteImport } from './routes/admin/visa-fees'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const ToursRoute = ToursRouteImport.update({
   id: '/tours',
@@ -27,6 +29,11 @@ const ToursRoute = ToursRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -64,6 +71,11 @@ const AdminVisaFeesRoute = AdminVisaFeesRouteImport.update({
   path: '/visa-fees',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,20 +83,24 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/advocacy': typeof AdvocacyRoute
   '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
   '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
   '/admin/visa-fees': typeof AdminVisaFeesRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/advocacy': typeof AdvocacyRoute
   '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
   '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
   '/admin/visa-fees': typeof AdminVisaFeesRoute
   '/admin': typeof AdminIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,10 +109,12 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/advocacy': typeof AdvocacyRoute
   '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
   '/services': typeof ServicesRoute
   '/tours': typeof ToursRoute
   '/admin/visa-fees': typeof AdminVisaFeesRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,20 +124,24 @@ export interface FileRouteTypes {
     | '/admin'
     | '/advocacy'
     | '/contact'
+    | '/login'
     | '/services'
     | '/tours'
     | '/admin/visa-fees'
     | '/admin/'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/advocacy'
     | '/contact'
+    | '/login'
     | '/services'
     | '/tours'
     | '/admin/visa-fees'
     | '/admin'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
@@ -127,10 +149,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/advocacy'
     | '/contact'
+    | '/login'
     | '/services'
     | '/tours'
     | '/admin/visa-fees'
     | '/admin/'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -139,8 +163,10 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AdvocacyRoute: typeof AdvocacyRoute
   ContactRoute: typeof ContactRoute
+  LoginRoute: typeof LoginRoute
   ServicesRoute: typeof ServicesRoute
   ToursRoute: typeof ToursRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -157,6 +183,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -208,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVisaFeesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -229,8 +269,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AdvocacyRoute: AdvocacyRoute,
   ContactRoute: ContactRoute,
+  LoginRoute: LoginRoute,
   ServicesRoute: ServicesRoute,
   ToursRoute: ToursRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

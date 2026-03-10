@@ -26,5 +26,16 @@ export function createAuth(d1: D1Database, env: AuthEnv) {
       },
     },
     plugins: [tanstackStartCookies()],
+    advanced: {
+      database: {
+        generateId: false,
+      },
+    },
+    session: {
+      cookieCache: {
+        enabled: true,
+        maxAge: 5 * 60,
+      },
+    },
   });
 }

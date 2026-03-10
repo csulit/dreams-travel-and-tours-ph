@@ -37,7 +37,7 @@ export default function VisaFeesPage() {
         .filter((f) => f.type === 'main')
         .map((f) => ({ id: f.id, label: f.label }))
 
-      const childMap = new Map<number, VisaFee[]>()
+      const childMap = new Map<string, VisaFee[]>()
       for (const fee of allFees) {
         if (fee.parentId != null) {
           const existing = childMap.get(fee.parentId) ?? []
@@ -130,7 +130,7 @@ export default function VisaFeesPage() {
       type: 'main' | 'sub' | 'info'
       feeCentavos: number | null
       gridColumn: 'left' | 'right' | null
-      parentId: number | null
+      parentId: string | null
       sortOrder: number
     }) => {
       if (formMode === 'create') {

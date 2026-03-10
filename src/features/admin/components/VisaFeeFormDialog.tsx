@@ -29,7 +29,7 @@ type FormData = {
   type: 'main' | 'sub' | 'info'
   feePHP: string
   gridColumn: 'left' | 'right' | null
-  parentId: number | null
+  parentId: string | null
   sortOrder: number
 }
 
@@ -40,7 +40,7 @@ const formSchema = z
     type: z.enum(['main', 'sub', 'info']),
     feePHP: z.string(),
     gridColumn: z.enum(['left', 'right']).nullable(),
-    parentId: z.number().int().positive().nullable(),
+    parentId: z.string().uuid().nullable(),
     sortOrder: z.number().int().nonnegative(),
   })
   .refine((d) => d.type === 'info' || (d.feePHP !== '' && !isNaN(Number(d.feePHP))), {
@@ -59,7 +59,7 @@ const formSchema = z
 interface VisaFeeFormDialogProps {
   mode: 'create' | 'edit'
   initialData?: VisaFee
-  parentOptions: { id: number; label: string }[]
+  parentOptions: { id: string; label: string }[]
   open: boolean
   onOpenChange: (open: boolean) => void
   onSubmit: (data: {
@@ -68,7 +68,7 @@ interface VisaFeeFormDialogProps {
     type: 'main' | 'sub' | 'info'
     feeCentavos: number | null
     gridColumn: 'left' | 'right' | null
-    parentId: number | null
+    parentId: string | null
     sortOrder: number
   }) => void
   nextSortOrder: number
@@ -311,9 +311,9 @@ export default function VisaFeeFormDialog({
               <Field className="flex flex-col gap-1.5">
                 <FieldLabel>Parent Entry</FieldLabel>
                 <Select
-                  value={form.parentId?.toString() ?? ''}
+                  value={form.parentId ?? ''}
                   onValueChange={(val) =>
-                    updateField('parentId', val ? Number(val) : null)
+                    updateField('parentId', val || null)
                   }
                 >
                   <SelectTrigger>
@@ -323,7 +323,7 @@ export default function VisaFeeFormDialog({
                     <SelectPositioner>
                       <SelectPopup>
                         {parentOptions.map((opt) => (
-                          <SelectItem key={opt.id} value={opt.id.toString()}>
+                          <SelectItem key={opt.id} value={opt.id}>
                             {opt.label}
                           </SelectItem>
                         ))}

@@ -10,7 +10,7 @@ export const createVisaFeeSchema = z
     type: typeEnum,
     label: z.string().min(1).max(200),
     feeCentavos: z.number().int().nonnegative().nullable(),
-    parentId: z.number().int().positive().nullable(),
+    parentId: z.string().uuid().nullable(),
     sortOrder: z.number().int().nonnegative(),
     gridColumn: gridColumnEnum.nullable(),
   })
@@ -37,7 +37,7 @@ export const createVisaFeeSchema = z
 export type CreateVisaFeeInput = z.infer<typeof createVisaFeeSchema>
 
 export const updateVisaFeeSchema = z.object({
-  id: z.number().int().positive(),
+  id: z.string().uuid(),
   label: z.string().min(1).max(200).optional(),
   feeCentavos: z.number().int().nonnegative().nullable().optional(),
   sortOrder: z.number().int().nonnegative().optional(),
@@ -47,7 +47,7 @@ export const updateVisaFeeSchema = z.object({
 export type UpdateVisaFeeInput = z.infer<typeof updateVisaFeeSchema>
 
 export const deleteVisaFeeSchema = z.object({
-  id: z.number().int().positive(),
+  id: z.string().uuid(),
 })
 
 export type DeleteVisaFeeInput = z.infer<typeof deleteVisaFeeSchema>
@@ -56,7 +56,7 @@ export const reorderVisaFeesSchema = z.object({
   items: z
     .array(
       z.object({
-        id: z.number().int().positive(),
+        id: z.string().uuid(),
         sortOrder: z.number().int().nonnegative(),
       }),
     )
